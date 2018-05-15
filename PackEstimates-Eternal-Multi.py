@@ -51,7 +51,7 @@ def get_rare():
         adjust_costs()
     else:
         dust_amount += rare_dust_gain
-        print("You now have {} dust!".format(str(dust_amount)))
+
 def get_legendary():
     global dust_amount
     global playset_legendary_list1
@@ -61,7 +61,7 @@ def get_legendary():
         adjust_costs()
     else:
         dust_amount += legendary_dust_gain
-        print("You now have {} dust!".format(str(dust_amount)))
+
 
 def open_a_pack():
     for i in range(0,commons_per_pack):
@@ -132,14 +132,11 @@ for num in legendary_list:
     playset_legendary_list.append(num)
 total_legendary_dust_cost = single_legendary_dust_cost * len(playset_legendary_list)                                ##I AM THE END OF THE BLOCKED CODE, INCLUDE ME WHEN CTRL-/
 ##MASTER VARIABLES##
-current_game = str(input("Which game will you be testing today? Currently supported games are 'Eternal'.")
+current_game = str(input("Which game will you be testing today? Currently supported games are 'Eternal'."))
 need_half_legendaries = ''
-need_all_legendaries = str(input('Do you feel you need all legendaries included in the calculation? Type "True" without quote marks for yes, or "False" for no. Also, be sure to capitalize your response!'))
+need_all_legendaries = True
 if need_all_legendaries == False:
-    if input("Do you feel you need half the legendaries? This would mean you could get half of every playset, or full playsets of half the legendaries, etc etc. Again, type True for yes, and False for no."):
-        need_half_legendaries = True
-    else:
-        pass
+    need_half_legendaries = input("Do you feel you need half the legendaries? This would mean you could get half of every playset, or full playsets of half the legendaries, etc etc. Again, type True for yes, and False for no.")
 else:
     pass
 dust_amount = int(input('How much dust do you currently have?'))
@@ -155,14 +152,17 @@ cost_of_packs = int(input("How much do you pay for that purchase? Only type numb
 cost_per_pack = float(cost_of_packs) / float(biggest_pack_count)
 
 
+for i in range(0,1000):
+    runs = []
+    runs.append(opened_packs)
+    opened_packs = 0
+    dust_amount = 0
+    if current_game.lower() == "eternal":
+        while total_set_dust_cost > dust_amount:            ##checks that you don't have enough dust to craft remaining set
+            open_a_pack()
+            dust_amount += 100                                   ##checks whether user can craft remainder of set, then cracks a pack if you can't
+            opened_packs += 1
+    else:
+        "I can't understand the game you typed for me. Please close and retry running this."
 
-if current_game.lower() == "eternal":
-    while total_set_dust_cost > dust_amount:            ##checks that you don't have enough dust to craft remaining set
-        open_a_pack()                                   ##checks whether user can craft remainder of set, then cracks a pack if you can't
-        opened_packs += 1
-else:
-    "I can't understand the game you typed for me. Please close and retry running this."
-
-
-
-print("You got the set, opening {} packs! At a rate of {}/pack, this would've cost you ${}! Thanks for playing!".format(str(opened_packs),str(cost_per_pack),str(opened_packs * cost_per_pack)))
+print(str(float(sum(runs)/len(runs))))
